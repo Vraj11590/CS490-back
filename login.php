@@ -1,17 +1,7 @@
 <?php
 
-	echo "<font color=blue font face='courier new' size='6pt'>Login Start....</font>"; 
-	
-	//echo "<font color=\"blue\">Login start.....</font>";
-	echo "<br>";
-	echo "<br>";
-	
-	
-	$db_UCID = "sjt5";
-	$db_Pass = "songbag22";
-	$host = "sql2.njit.edu";
-	$dbname = "sjt5";
-	
+	include 'dbglobals.php';
+
 	//Connecting to database
 	//mysqli_connect(host,username,password,dbname);
 
@@ -20,43 +10,41 @@
 	// Check connection
 	if (mysqli_connect_errno())
 	{
-		echo "Failed to connect to MySQL: " . mysqli_connect_error();
+			$log = array('allow'=>'No');
+			// print_r($log);
+			echo json_encode($log);		
 	}else
 	{
-		echo "<font color=\"red\">Connected to Database!</font>";
-		echo "<br>";
-		echo "<br>";
-		
-		$ucid = "vp78";
-		$pass = "password";
-		
+	
+		$ucid = $_POST['ucid'];
+		$pass = $_POST['pass'];
 	
 		$result = mysqli_query($con,"SELECT * FROM Users WHERE UCID = '$ucid' AND Password = '$pass'");
 
 		
 		$count = $result->num_rows;
 		
-		
-		
-		
 
 		//echo "Count= ".$count;
 		
 		if ($count == 1){
-		 
-		 echo "<font color=\"green\">User exists</font>";
-		
+			$row = mysqli_fetch_assoc($result);
+			$type = $row['Type'];
+			$name = $row['Name'];
+			$ucid = $row['UCID'];
+			$log = array('allow'=>'Yes', 'type'=>$type, 'name'=>$name,'ucid'=>$ucid);
+			// print_r($log);
+			echo json_encode($log);
+				
 		}
 		else if ($count > 1){}
 		else{
-		
-			echo "User not there";
+			$log = array('allow'=>'No');
+			// print_r($log);
+			echo json_encode($log);
 		}
 		
-		
-		
-		
-		
+	
 		mysqli_close($con);
 
 		

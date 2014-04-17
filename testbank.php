@@ -1,30 +1,53 @@
 <?php
 
-$db_UCID = "sjt5";
-$db_Pass = "songbag22";
-$host = "sql2.njit.edu";
-$dbname = "sjt5";
-	
+include 'dbglobals.php';
+
 //Connect to the database
 $con = mysqli_connect($host,$db_UCID,$db_Pass,$dbname);
 
-$result = mysqli_query($con, "SELECT Type, Question, GROUP_CONCAT(answers,'') AS answers, correct, question_id FROM Questions, Answers WHERE Questions.id = Answers.question_id GROUP BY question_id");
+$SortBy = $_POST['filter'];
 
+if ($SortBy == 'MC'){
+	// echo "sorting by MC";
+	$result = mysqli_query($con,"SELECT Question, Type, CreatedBy FROM Questions WHERE Type = 'MC'");
+}
 
-$ques = array();
+if ($SortBy == 'TF'){
+	// echo "sorting by TF";
+	$result = mysqli_query($con,"SELECT Question, Type, CreatedBy  FROM Questions WHERE Type = 'TF'");
+}
+
+if ($SortBy == 'FB'){
+
+$result = mysqli_query($con,"SELECT Question, Type, CreatedBy  FROM Questions WHERE Type = 'FB'");
+}
+
+if ($SortBy == 'OE'){
+	// echo "sorting by OE";
+
+	$result = mysqli_query($con,"SELECT Question, Type, CreatedBy  FROM Questions WHERE Type = 'OE'");
+}
+
+if ($SortBy == 'HL'){
+
+$result = mysqli_query($con,"SELECT Question, Type, Difficulty, CreatedBy  FROM Questions ORDER BY Difficulty DESC");
+}
+
+if ($SortBy == 'Default'){
+
+$result = mysqli_query($con,"SELECT Question, Type, QuestionID, CreatedBy  FROM Questions ORDER BY QuestionID DESC");
+}
+
+$q = array();
 //$answers = array();
 $i=0;
 
 while($row = mysqli_fetch_assoc($result)) {
 
-	  $answers = $row['answers'];
-      $array = explode(',', $answers); //split string into array seperated by ', '
-	  $ques[''.$i] = $row;
-	  $ques[''.$i]['answers'] = $array;
+	  $q[''.$i] = $row;
+	  
       $i++;
-}    
+}   
 
-
-   echo json_encode($ques);
-
+echo json_encode($q);
 ?>
