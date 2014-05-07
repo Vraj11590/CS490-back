@@ -39,7 +39,7 @@
 		}
 		else if ($count > 1){}
 		else{
-			$log = array('allow'=>'No');
+			$log = array('allow'=>'No','message'=>'Invalid User/Pass Combo');
 			// print_r($log);
 			echo json_encode($log);
 		}
