@@ -38,7 +38,7 @@
 
 			$insert_answer = mysqli_query($con,"INSERT INTO OEAnswers (T1, T2, T3, T4, HelpCode, question_id) VALUES ('$t1', '$t2', '$t3', '$t4', '$helpcode', '$lastId')");
 
-			$a = array("Question" => "Success" , "Message" => "Question added");
+			$a = array("Flag" => "Success" , "Message" => "Question added");
 			echo json_encode($a);
 		}
 
@@ -100,7 +100,7 @@
 			$lastId = mysqli_insert_id($con);
 
 			$insert_answer = mysqli_query($con,"INSERT INTO MCAnswers (C1, C2, C3, C4, correct, question_id) VALUES ('$C1', '$C2', '$C3', '$C4', '$correct_text', '$lastId')");
-			$a = array("Question" => "Success" , "Message" => "Question added");
+			$a = array("Flag" => "Success" , "Message" => "Question added");
 			echo json_encode($a);
 		}
 		if ( $check_person >= 1){
@@ -125,7 +125,7 @@
 			$lastId = mysqli_insert_id($con);
 
 			$insert_answer = mysqli_query($con,"INSERT INTO TFAnswers (question_id, correct) VALUES ('$lastId', '$correct')");
-			$a = array("Question" => "Success" , "Message" => "Question added");
+			$a = array("Flag" => "Success" , "Message" => "Question added");
 			echo json_encode($a);
 		}
 		if ( $check_person >= 1){
